@@ -5,28 +5,47 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup zip
         run: |
           sudo apt-get update
           sudo apt-get install -y zip
 
+      - name: Make package script executable
+        run: chmod +x package.sh
+
       - name: Package releases
         run: |
           VERSION=${GITHUB_REF#refs/tags/}
           ./package.sh "$VERSION"
 
+      - name: Verify packages
+        run: |
+          ls -lh release/
+          test -f release/pnvm-${GITHUB_REF#refs/tags/}-universal.zip
+          test -f release/pnvm-${GITHUB_REF#refs/tags/}-unix.zip
+          test -f release/pnvm-${GITHUB_REF#refs/tags/}-windows.zip
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            release/*.zip
+            release/pnvm-*-universal.zip
+            release/pnvm-*-unix.zip
+            release/pnvm-*-windows.zip
           generate_release_notes: true
+          draft: false
+          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
