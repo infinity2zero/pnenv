@@ -22,8 +22,8 @@ A portable, zero-admin Node.js version manager that works entirely within your p
 
 Download the appropriate package for your OS:
 
-- **From GitHub Releases**: [Releases page](https://github.com/infinity2zero/pnvm/releases)
-- **Direct download from repo**: [release folder](https://github.com/infinity2zero/pnvm/tree/main/release)
+- **From GitHub Releases**: [Releases page](https://github.com/infinity2zero/pnenv/releases)
+- **Direct download from repo**: [release folder](https://github.com/infinity2zero/pnenv/tree/main/release)
 
 Available packages:
 - **Universal** (all platforms): `pnvm-v2.0.0-universal.zip`
@@ -456,7 +456,7 @@ chmod +x pnvm
 ## Download Statistics
 
 GitHub automatically tracks download counts for each release. View statistics at:
-- [GitHub Releases](https://github.com/infinity2zero/pnvm/releases)
+- [GitHub Releases](https://github.com/infinity2zero/pnenv/releases)
 
 Each release shows download counts for:
 - Universal package (all platforms)
