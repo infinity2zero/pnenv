@@ -174,19 +174,23 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command ^
   "  Write-Host 'Download failed: ' $_.Exception.Message;" ^
   "  exit 1" ^
   "}"
+REM Handle download errors without complex parentheses blocks
+if errorlevel 1 goto :download_failed
+goto :download_ok
 
-if errorlevel 1 (
-    set /a RETRY+=1
-    if !RETRY! lss %RETRIES% (
-        echo %TOOL_NAME%: download failed, retrying (!RETRY!/%RETRIES%)...
-        timeout /t 2 /nobreak >nul
-        goto :download_retry
-    ) else (
-        echo.
-        echo %TOOL_NAME% ERROR: Failed to download Node after %RETRIES% attempts.
-        exit /b 1
-    )
+:download_failed
+set /a RETRY+=1
+if !RETRY! lss %RETRIES% (
+    echo %TOOL_NAME%: download failed, retrying (!RETRY!/%RETRIES%)...
+    timeout /t 2 /nobreak >nul
+    goto :download_retry
+) else (
+    echo.
+    echo %TOOL_NAME% ERROR: Failed to download Node after %RETRIES% attempts.
+    exit /b 1
 )
+
+:download_ok
 
 REM Copy to shared cache if possible
 if not exist "%SHARED_CACHE_DIR%" mkdir "%SHARED_CACHE_DIR%" 2>nul
@@ -217,7 +221,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command ^
   "  Remove-Item -Path $tempDir -Recurse -Force -ErrorAction SilentlyContinue;" ^
   "  exit 1" ^
   "}"
-
+REM Handle extraction errors safely
 if errorlevel 1 (
     echo.
     echo %TOOL_NAME% ERROR: Failed to extract Node.
