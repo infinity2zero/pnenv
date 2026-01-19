@@ -1,6 +1,9 @@
 
-<img src="images/pnvm.png" alt="Logo"/>
-# pnvm - Per-Project Node.js Version Manager
+<p align="center">
+  <img src="images/pnvm.png" alt="Logo" width="500" height="400"/>
+</p>
+
+## pnvm - Per-Project Node.js Version Manager
 
 A portable, zero-admin Node.js version manager that works entirely within your project directory. Perfect for developers on corporate laptops without admin rights.
 
